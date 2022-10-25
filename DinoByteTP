@@ -1,0 +1,57 @@
+package org.firstinspires.ftc.teamcode;
+
+//import com.qualcomm.robotcore.eventloop.opmode.Teleop;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+@TeleOp
+
+public class Dynotype20 extends OpMode {
+  DcMotor backLeftMotor;
+  DcMotor frontRightMotor;
+  DcMotor frontLeftMotor;
+  DcMotor backRightMotor; 
+  DcMotor topMotor;
+  Servo rightServo;
+  Servo leftServo;
+  
+  /**
+   * This function is executed when this Op Mode is selected from the Driver Station.
+   */
+  @Override
+public void init() {
+    // Put initialization blocks here. map the motors
+    backLeftMotor= hardwareMap.dcMotor.get("backLeft");
+    frontRightMotor = hardwareMap.dcMotor.get("frontRight");
+    frontLeftMotor = hardwareMap.dcMotor.get("frontLeft");
+    backRightMotor = hardwareMap.dcMotor.get ("backRight");
+    topMotor = hardwareMap.dcMotor.get("topMotor");
+    rightServo = hardwareMap.servo.get("rightClaw");
+    leftServo = hardwareMap.servo.get("leftClaw");
+}
+
+public void loop() {
+double forward = gamepad1.left_stick_y;
+double strafe = gamepad1.left_stick_x;
+double turn = gamepad1.right_stick_x ; 
+double topPower =0.5 * -gamepad1.right_trigger;
+
+if (gamepad1.a) {
+  rightServo.setPosition(1);
+  leftServo.setPosition(0);
+}
+      
+double backLeftPower = forward + strafe - turn;
+double frontRightPower = -forward - strafe - turn;
+double frontLeftPower = forward - strafe - turn;
+double backRightPower = -forward + strafe - turn; 
+
+topMotor.setPower(topPower);
+backLeftMotor.setPower(backLeftPower);
+frontRightMotor.setPower(frontRightPower);
+frontLeftMotor.setPower(frontLeftPower);
+backRightMotor.setPower(backRightPower);
+
+}      
+}
